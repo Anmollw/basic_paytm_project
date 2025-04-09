@@ -1,9 +1,8 @@
-import mongoose from "mongoose";
-import {  Schema  } from "zod";
-const { mongodb_url } = require ("./mongodbcofig")
+const mongoose = require("mongoose");
+const { mongodb_url } = require ("./mongodbcofig.js")
 mongoose.connect(mongodb_url);
 
-const Userschema = new Schema({
+const Userschema = new mongoose.Schema({
     username: {
         type: String,
         required: true,
@@ -18,13 +17,13 @@ const Userschema = new Schema({
         required: true,
         minLength: 6
     },
-    firstName: {
+    firstname: {
         type: String,
         required: true,
         trim: true,
         maxLength: 50
     },
-    lastName: {
+    lastname: {
         type: String,
         required: true,
         trim: true,
@@ -36,9 +35,9 @@ const User = mongoose.model('User',Userschema)
 
 
 
-const Accountschema = new Schema({
+const Accountschema = new mongoose.Schema({
     userId : {
-        type : Schema.Types.ObjectId,
+        type : mongoose.Schema.Types.ObjectId,
         ref : 'User',
         required : true
     },

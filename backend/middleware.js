@@ -29,3 +29,5 @@ const authmiddleware= (req,res,next)=>{
 module.exports = {
     authmiddleware
 }
+
+

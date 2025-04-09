@@ -85,7 +85,7 @@ userRouter.post('/signin',async (req,res)=> {
 
 const updatebodyschema= zod.object({
     password : zod.string().optional(),
-    firstname : zod.string.optional(),
+    firstname : zod.string().optional(),
     lastname : zod.string().optional()
 })
 
