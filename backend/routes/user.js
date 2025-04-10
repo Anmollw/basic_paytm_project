@@ -3,7 +3,7 @@ const userRouter = express.Router();
 const zod = require("zod");
 const jwt = require("jsonwebtoken");
 const { JWT_SECRET } = require("../jwtconfig");
-const { User } = require("../db");
+const { User , Account } = require("../db");
 const { authmiddleware } = require("../middleware");
 
 
@@ -23,21 +23,30 @@ userRouter.post('/signup', async (req,res) => {
         })
     }
 
-    const user = User.findOne({
+    const existinguser = await User.findOne({
         username : body.username
     })
     
-    if (user._id) {
-        return res.json({
-            message : "Email already taken / Incorrect inputs"
+    if (existinguser) {
+        return res.status(411).json({
+            message : "Email already taken / User already exists"
         })
     }
     
     const dbUser = await User.create(body)
 
+    
+
+    await Account.create({
+        userId : dbUser._id,
+        balance: 1 + Math.random() * 10000
+    })
+
     const token = jwt.sign({
         userId : dbUser._id
     },JWT_SECRET);
+
+    console.log(JWT_SECRET);
 
     res.status(200).json({
         message: "User created successfully",
