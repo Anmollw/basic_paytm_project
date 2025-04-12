@@ -18,7 +18,7 @@ userRouter.post('/signup', async (req,res) => {
     const body = req.body;
     const {success} = singupschema.safeParse(req.body)
     if (!success){
-        return res.status(411).json({
+        return res.status(400).json({
             message: "Email already taken / Incorrect inputs"
         })
     }
@@ -45,8 +45,6 @@ userRouter.post('/signup', async (req,res) => {
     const token = jwt.sign({
         userId : dbUser._id
     },JWT_SECRET);
-
-    console.log(JWT_SECRET);
 
     res.status(200).json({
         message: "User created successfully",
